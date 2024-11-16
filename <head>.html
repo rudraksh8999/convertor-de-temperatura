@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertor de Temperatura</title>
+    <style>
+    
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 1650px;
+            text-align: center;  
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;  
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;   
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Convertor de Temperatura</h1>
+
+        <label for="temp">Digite a Temperatura:</label>
+        <input type="number" id="temp" placeholder="Digite o valor" required>
+
+        <label for="conversion">Selecione a Conversão:</label>
+        <select id="conversion">
+            <option value="CtoF">Celsius para Fahrenheit</option>
+            <option value="FtoC">Fahrenheit para Celsius</option>
+            <option value="CtoK">Celsius para Kelvin</option>
+            <option value="KtoC">Kelvin para Celsius</option>
+            <option value="FtoK">Fahrenheit para Kelvin</option>
+            <option value="KtoF">Kelvin para Fahrenheit</option>
+        </select>
+
+        <button onclick="convertTemperature()">Converter</button>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        // Função para mudar a cor de fundo com base na temperatura
+        function changeBackgroundColor(temp) {
+            let backgroundColor = "";
+
+            if (temp <= 0) {
+                backgroundColor = "#0000FF"; // Azul
+            } else if (temp > 0 && temp <= 15) {
+                backgroundColor = "#ADD8E6"; // Azul bebê
+            } else if (temp > 15 && temp <= 30) {
+                backgroundColor = "#FFFE8B"; // Amarelo bebê
+            } else if (temp > 30 && temp <= 40) {
+                backgroundColor = "#FFD700"; // Amarelo
+            } else {
+                backgroundColor = "#FF4500"; // Vermelho
+            }
+
+            document.body.style.backgroundColor = backgroundColor;
+        }
+
+        // Função para realizar a conversão da temperatura
+        function convertTemperature() {
+            let temp = parseFloat(document.getElementById('temp').value);
+            let conversionType = document.getElementById('conversion').value;
+            let resultText = '';
+
+            if (isNaN(temp)) {
+                resultText = "Por favor, insira um número válido para a temperatura.";
+            } else {
+                switch (conversionType) {
+                    case 'CtoF':
+                        // Celsius para Fahrenheit
+                        let fahrenheit = (temp * 9/5) + 32;
+                        resultText = `${temp}°C é igual a ${fahrenheit.toFixed(2)}°F.`;
+                        break;
+                    case 'FtoC':
+                        // Fahrenheit para Celsius
+                        let celsius = (temp - 32) * 5/9;
+                        resultText = `${temp}°F é igual a ${celsius.toFixed(2)}°C.`;
+                        break;
+                    case 'CtoK':
+                        // Celsius para Kelvin
+                        let kelvin = temp + 273.15;
+                        resultText = `${temp}°C é igual a ${kelvin.toFixed(2)} K.`;
+                        break;
+                    case 'KtoC':
+                        // Kelvin para Celsius
+                        let celsiusFromK = temp - 273.15;
+                        resultText = `${temp} K é igual a ${celsiusFromK.toFixed(2)}°C.`;
+                        break;
+                    case 'FtoK':
+                        // Fahrenheit para Kelvin
+                        let kelvinFromF = (temp - 32) * 5/9 + 273.15;
+                        resultText = `${temp}°F é igual a ${kelvinFromF.toFixed(2)} K.`;
+                        break;
+                    case 'KtoF':
+                        // Kelvin para Fahrenheit
+                        let fahrenheitFromK = (temp - 273.15) * 9/5 + 32;
+                        resultText = `${temp} K é igual a ${fahrenheitFromK.toFixed(2)}°F.`;
+                        break;
+                    default:
+                        resultText = "Tipo de conversão inválido.";
+                }
+            }
+
+            document.getElementById('result').innerText = resultText;
+
+            // Mudar a cor de fundo com base na temperatura
+            changeBackgroundColor(temp);
+        }
+    </script>
+
+</body>
+</html>
